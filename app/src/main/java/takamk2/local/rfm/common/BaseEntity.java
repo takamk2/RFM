@@ -2,6 +2,7 @@ package takamk2.local.rfm.common;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.net.Uri;
 
 /**
@@ -12,41 +13,57 @@ import android.net.Uri;
 
 public abstract class BaseEntity {
 
-    public long mId = -1;
-    public long mCreated = -1;
-    public long mModified = -1;
+    public Long mId = null;
+    public Long mCreated = null;
+    public Long mModified = null;
 
-    protected Uri mContentUri;
+    protected Uri mContentUri = null;
 
-    public abstract ContentValues getValues();
+    public abstract ContentValues getValuesForInsert();
 
-    public abstract Uri getContentUri();
+    public abstract ContentValues getValuesForUpdate();
+
+    public abstract void setValuesFromCursor(Cursor cursor);
+
+    public Uri getContentUri() {
+        if (mContentUri == null) {
+            throw new IllegalArgumentException("mContentUri is null!");
+        }
+        return mContentUri;
+    }
 
     public Uri getContentUriWithId() {
+        if (mContentUri == null) {
+            throw new IllegalArgumentException("mContentUri is null!");
+        }
         return ContentUris.withAppendedId(mContentUri, getId());
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         mId = id;
     }
 
-    public long getId() {
+    public Long getId() {
         return mId;
     }
 
-    public void setCreated(long created) {
+    public void setCreated(Long created) {
         mCreated = created;
     }
 
-    public long getCreated() {
+    public Long getCreated() {
         return mCreated;
     }
 
-    public void setModified(long modified) {
+    public void setModified(Long modified) {
         mModified = modified;
     }
 
-    public long getModified() {
+    public Long getModified() {
         return mModified;
+    }
+
+    public boolean isRegistered() {
+        return mId != -1;
     }
 }
