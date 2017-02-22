@@ -10,9 +10,15 @@ import java.util.Calendar;
 
 public class DateUtils {
 
-    public static Calendar convertTimestampToCalendar(long timestamp) {
-        // TODO: Implement
-        return null;
+    private static final String LOGTAG = DateUtils.class.getSimpleName();
+
+    public static Calendar getCalendarOfNow() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal;
     }
 
+    public static long getTimestampOfNow() {
+        return getCalendarOfNow().getTimeInMillis();
+    }
 }
